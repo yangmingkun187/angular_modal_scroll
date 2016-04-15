@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>angular modal scroll</title>
+  <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
   <div class="iframe_content" ng-controller="myContrl">
@@ -72,7 +73,6 @@
 
                 },
                 cancel: function () {
-                    $scope.isShowCalendar = true;
                 }
             });
         };
@@ -114,12 +114,7 @@
         };
         $scope.ok = function () {
             if ($scope.selected == false) {
-                alert.alerisShowCalendart({
-                    reason: '请至少选择一项',
-                    message: '此提示3秒后关闭',
-                    type: 'fail',
-                    delay: '3'
-                })
+
             } else {
                 $modalInstance.close($scope.selected);
             }
