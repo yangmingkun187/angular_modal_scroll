@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='app'>
+<head>
+  <meta charset="UTF-8">
+  <title>angular modal scroll</title>
+</head>
+<body>
+  <div class="iframe_content" ng-controller="myContrl">
+    <form action="" name="form" novalidate="novalidate">
+        <div class="offset">
+            <div class="input_group">
+                <label>
+                    选择地点：
+                </label>
+
+                <div class="cutline"></div>
+                <input type="text" name="address" ng-focus="open($event)" ng-model="postData.address"/>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="dialog_header">
+        <form>
+            <input ng-model="postData.name" name="name" type="text"/>
+            <button ng-click="search($event)">搜&nbsp;&nbsp;索</button>
+            <input type="hidden" name="index"/>
+            <input type="hidden" name="size"/>
+        </form>
+    </div>
+    <div class="dialog_content">
+        <div class="grid stScroll" index="postData.index" size="postData.size" name="postData.name" array="items"
+             url="/web/tourism/selectTourismWithType" tabindex="5000" style="overflow: hidden; outline: none;">
+            <table>
+                <tbody>
+                <tr ng-repeat='item in items'>
+                    <td style="width:5%;">
+                        <input ng-model="$parent.selected" name="name" ng-checked="$parent.selected == item"
+                               ng-value="item" class="stRadio" type="radio"/>
+                    </td>
+                    <td style="width:60%;">
+                        <div ng-bind="item.name"></div>
+                    </td>
+                </tr>
+                </tbody>
+                <div ng-if="empty">无数据，请修改搜索条件搜索</div>
+            </table>
+        </div>
+    </div>
+    <div class="dialog_footer">
+        <div class="ops">
+            <a href="#" ng-click="cancel()">取&nbsp;&nbsp;消</a>
+            <button ng-click="ok()">确认添加</button>
+        </div>
+    </div>
+</script>
+<script type="text/javascript" src="./lib/jquery.min.js"></script>
+<script type="text/javascript" src="./lib/jquery.nicescroll.min.js"></script>
+<script type="text/javascript" src="./lib/angular.min.js"></script>
+<script type="text/javascript" src="./js/modal.js"></script>
+<script type="text/javascript" src="./js/directive.js"></script>
+<script type="text/javascript">
+    var app = angular.module('app', ['ngModal','ngDirective']);
+    app.controller('myContrl', ['$scope', '$http', 'stModal', '$timeout', function ($scope, $http, stModal, $timeout, ngSubmit, alert) {
+        $scope.address = '成都';
+        //触发open事件，这个事件的名字是可以更改的，如open2
+        $scope.open = function ($event) {
+            stModal({
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceCtrl',
+                ok: function (selectedItem) {
+
+                },
+                cancel: function () {
+                    $scope.isShowCalendar = true;
+                }
+            });
+        };
+    }]);
+    //tourism搜索弹出框
+    app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $http) {
+        $scope.postData = {'name': '', 'index': 1, 'size': 10};
+        $scope.items = [];
+        $scope.selected = false;
+        $scope.empty = false;
+        $scope.search = function (event) {
+            $scope.postData.index = 1;
+            $scope.items = [];
+            angular.element('.dialog_content .grid').niceScroll({
+                cursorborder: '',
+                cursorcolor: '#000',
+                cursoropacitymax: '0.5'
+            });
+            var $this = angular.element(event.target).attr('disabled', 'disabled');
+            $http.post('/web/tourism/selectTourismWithType', $scope.postData).success(function (data) {
+                $this.attr('disabled', false);
+                if (data.code == 0) {
+                    $scope.items = data.data;
+                    $scope.postData.index += 1;
+                    $scope.index = 'false';
+                    $scope.empty = false;
+                    angular.element('.dialog_content .grid').getNiceScroll().resize();
+                } else if (data.code == 2) {
+                    $scope.empty = true;
+                }
+            }).error(function () {
+                $this.attr('disabled', false);
+                $scope.empty = false;
+            })
+        };
+        $scope.index = 'false';
+        $scope.checked = function (index) {
+            $scope.index = index;
+        };
+        $scope.ok = function () {
+            if ($scope.selected == false) {
+                alert.alerisShowCalendart({
+                    reason: '请至少选择一项',
+                    message: '此提示3秒后关闭',
+                    type: 'fail',
+                    delay: '3'
+                })
+            } else {
+                $modalInstance.close($scope.selected);
+            }
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    });
+</script>
+</body>
+</html>
