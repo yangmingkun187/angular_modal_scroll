@@ -64,7 +64,7 @@
          return {
              restrict: 'EA',
              replace: true,
-             templateUrl: './template/backdrop.html',
+             templateUrl: '/template/backdrop.html',
              compile: function (tElement, tAttrs) {
                  tElement.addClass(tAttrs.backdropClass);
                  return linkFn;
@@ -91,7 +91,7 @@
              replace: true,
              transclude: true,
              templateUrl: function(tElement, tAttrs) {
-                 return tAttrs.templateUrl || './template/window.html';
+                 return tAttrs.templateUrl || '/template/window.html';
              },
              link: function (scope, element, attrs) {
                  element.addClass(attrs.windowClass || '');
