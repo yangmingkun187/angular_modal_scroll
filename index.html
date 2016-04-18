@@ -31,7 +31,7 @@
     </div>
     <div class="dialog_content">
         <div class="grid stScroll" index="postData.index" size="postData.size" name="postData.name" array="items"
-             url="/web/tourism/selectTourismWithType" tabindex="5000" style="overflow: hidden; outline: none;">
+             url="./lib/data.json" tabindex="5000" style="overflow: hidden; outline: none;">
             <table>
                 <tbody>
                 <tr ng-repeat='item in items'>
@@ -79,7 +79,6 @@
     }]);
     //tourism搜索弹出框
     app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $http) {
-        $scope.postData = {'name': '', 'index': 1, 'size': 10};
         $scope.items = [];
         $scope.selected = false;
         $scope.empty = false;
@@ -92,21 +91,13 @@
                 cursoropacitymax: '0.5'
             });
             var $this = angular.element(event.target).attr('disabled', 'disabled');
-            $http.post('/web/tourism/selectTourismWithType', $scope.postData).success(function (data) {
+            $http.get('./lib/data.json').success(function(data) {
                 $this.attr('disabled', false);
-                if (data.code == 0) {
-                    $scope.items = data.data;
-                    $scope.postData.index += 1;
-                    $scope.index = 'false';
-                    $scope.empty = false;
-                    angular.element('.dialog_content .grid').getNiceScroll().resize();
-                } else if (data.code == 2) {
-                    $scope.empty = true;
-                }
-            }).error(function () {
-                $this.attr('disabled', false);
+                $scope.items = $scope.items.concat(data.data);
+                $scope.index = 'false';
                 $scope.empty = false;
-            })
+                angular.element('.dialog_content .grid').getNiceScroll().resize();
+            });
         };
         $scope.index = 'false';
         $scope.checked = function (index) {
@@ -114,7 +105,7 @@
         };
         $scope.ok = function () {
             if ($scope.selected == false) {
-
+                alert('请选择一项');
             } else {
                 $modalInstance.close($scope.selected);
             }
