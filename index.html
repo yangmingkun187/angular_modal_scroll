@@ -62,7 +62,7 @@
 <script type="text/javascript" src="./js/directive.js"></script>
 <script type="text/javascript">
     var app = angular.module('app', ['ngModal','ngDirective']);
-    app.controller('myContrl', ['$scope', '$http', 'stModal', '$timeout', function ($scope, $http, stModal, $timeout, ngSubmit, alert) {
+    app.controller('myContrl', ['$scope', '$http', 'stModal', function ($scope, $http, stModal) {
         $scope.address = '成都';
         //触发open事件，这个事件的名字是可以更改的，如open2
         $scope.open = function ($event) {
@@ -94,7 +94,7 @@
             var $this = angular.element(event.target).attr('disabled', 'disabled');
             $http.get('./lib/data.json').success(function(data) {
                 $this.attr('disabled', false);
-                $scope.items = $scope.items.concat(data);
+                $scope.items = data;
                 $scope.index = 'false';
                 $scope.empty = false;
                 angular.element('.dialog_content .grid').getNiceScroll().resize();
