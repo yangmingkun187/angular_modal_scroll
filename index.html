@@ -31,7 +31,7 @@
     </div>
     <div class="dialog_content">
         <div class="grid stScroll" index="postData.index" size="postData.size" name="postData.name" array="items"
-             url="./lib/data.json" tabindex="5000" style="overflow: hidden; outline: none;">
+             url="/angular_modal_scroll/lib/data.json" tabindex="5000" style="overflow: hidden; outline: none;">
             <table>
                 <tbody>
                 <tr ng-repeat='item in items'>
@@ -112,7 +112,7 @@
                 cursoropacitymax: '0.5'
             });
             var $this = angular.element(event.target).attr('disabled', 'disabled');
-            $http.get('./lib/data.json').success(function(data) {
+            $http.get('/angular_modal_scroll/lib/data.json').success(function(data) {
                 $this.attr('disabled', false);
                 $scope.items = data;
                 $scope.index = 'false';
