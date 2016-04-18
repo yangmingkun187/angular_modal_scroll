@@ -360,28 +360,6 @@
              return $modalStack;
          }])
 
-     .factory('stModal',['$modal',function($modal) {
-        function modalResult(options) {
-            var modalInstance = $modal.open({
-                templateUrl : options.templateUrl,
-                controller: options.controller,
-                resolve: options.resolve // 需要传到modal controller中的参数
-            });
-            modalInstance.rendered.then(function(){
-                if(angular.isFunction(options.rendered)){
-                    options.rendered();
-                }
-            });
-            modalInstance.result.then(function(selectedItem) {
-                    options.ok(selectedItem);
-                }, function() {
-                    options.cancel();
-                });
-        }
-        return modalResult;
-      }])
-
-
      .provider('$modal', function () {
 
          var $modalProvider = {

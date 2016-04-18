@@ -62,6 +62,26 @@
 <script type="text/javascript" src="./js/directive.js"></script>
 <script type="text/javascript">
     var app = angular.module('app', ['ngModal','ngDirective']);
+    app.factory('stModal',['$modal',function($modal) {
+       function modalResult(options) {
+           var modalInstance = $modal.open({
+               templateUrl : options.templateUrl,
+               controller: options.controller,
+               resolve: options.resolve // 需要传到modal controller中的参数
+           });
+           modalInstance.rendered.then(function(){
+               if(angular.isFunction(options.rendered)){
+                   options.rendered();
+               }
+           });
+           modalInstance.result.then(function(selectedItem) {
+                   options.ok(selectedItem);
+               }, function() {
+                   options.cancel();
+               });
+       }
+       return modalResult;
+    }]);
     app.controller('myContrl', ['$scope', '$http', 'stModal', function ($scope, $http, stModal) {
         $scope.address = '成都';
         //触发open事件，这个事件的名字是可以更改的，如open2
