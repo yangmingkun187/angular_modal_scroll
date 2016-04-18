@@ -374,10 +374,8 @@
             });
             modalInstance.result.then(function(selectedItem) {
                     options.ok(selectedItem);
-                    angular.element('.dialog_content .grid').getNiceScroll().resize();
                 }, function() {
                     options.cancel();
-                    angular.element('.dialog_content .grid').getNiceScroll().resize();
                 });
         }
         return modalResult;

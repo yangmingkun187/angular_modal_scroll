@@ -94,7 +94,7 @@
             var $this = angular.element(event.target).attr('disabled', 'disabled');
             $http.get('./lib/data.json').success(function(data) {
                 $this.attr('disabled', false);
-                $scope.items = $scope.items.concat(data.data);
+                $scope.items = $scope.items.concat(data);
                 $scope.index = 'false';
                 $scope.empty = false;
                 angular.element('.dialog_content .grid').getNiceScroll().resize();
