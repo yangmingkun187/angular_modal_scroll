@@ -70,7 +70,7 @@
                 templateUrl: 'myModalContent.html',
                 controller: 'ModalInstanceCtrl',
                 ok: function (selectedItem) {
-
+                    $scope.address = selectedItem.name;
                 },
                 cancel: function () {
                 }
@@ -79,6 +79,7 @@
     }]);
     //tourism搜索弹出框
     app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $http) {
+        $scope.postData = {'name': '', 'index': 1, 'size': 10}; // 分页需要的参数，现在没有后台逻辑，暂不处理
         $scope.items = [];
         $scope.selected = false;
         $scope.empty = false;
