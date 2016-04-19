@@ -75,10 +75,12 @@
                }
            });
            modalInstance.result.then(function(selectedItem) {
-                   options.ok(selectedItem);
-               }, function() {
-                   options.cancel();
-               });
+               options.ok(selectedItem);
+               angular.element('.dialog_content .grid').getNiceScroll().resize();
+           }, function() {
+               options.cancel();
+               angular.element('.dialog_content .grid').getNiceScroll().resize();
+           });
        }
        return modalResult;
     }]);
@@ -86,6 +88,7 @@
         $scope.address = '';
         //触发open事件，这个事件的名字是可以更改的，如open2
         $scope.open = function ($event) {
+            angular.element($event.target).blur();
             stModal({
                 templateUrl: 'myModalContent.html',
                 controller: 'ModalInstanceCtrl',
