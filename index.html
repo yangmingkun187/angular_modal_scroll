@@ -15,7 +15,7 @@
                 </label>
 
                 <div class="cutline"></div>
-                <input type="text" name="address" ng-focus="open($event)" ng-model="postData.address"/>
+                <input type="text" name="address" ng-focus="open($event)" ng-model="address"/>
             </div>
         </div>
     </form>
@@ -83,7 +83,7 @@
        return modalResult;
     }]);
     app.controller('myContrl', ['$scope', '$http', 'stModal', function ($scope, $http, stModal) {
-        $scope.address = '成都';
+        $scope.address = '';
         //触发open事件，这个事件的名字是可以更改的，如open2
         $scope.open = function ($event) {
             stModal({
