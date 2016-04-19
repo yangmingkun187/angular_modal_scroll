@@ -45,14 +45,10 @@ angular.module('ngDirective',[])
                         if(angular.element(element).height()+angular.element(element).scrollTop() >= trHeight){
                             angular.element(element).append('<div class="loading" style="text-align: center;">加载中</div>');
                             $http.get(angular.element(element).attr('url')).success(function(d){
-                                if(d.code==0){
-                                    scope.index = parseInt(scope.index) + 1;
-                                    scope.array = scope.array.concat(d.data);
-                                    angular.element(element).getNiceScroll().resize();
-                                    $('.loading').remove();
-                                }else if(d.code == 2){
-                                    $('.loading').hide();
-                                }
+                                scope.index = parseInt(scope.index) + 1;
+                                scope.array = scope.array.concat(d);
+                                angular.element(element).getNiceScroll().resize();
+                                $('.loading').remove();
                             })
                         }
                     }
